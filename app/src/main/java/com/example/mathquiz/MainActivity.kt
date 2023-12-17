@@ -2,15 +2,13 @@ package com.example.mathquiz
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -19,21 +17,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var button1: Button
     private lateinit var button2: Button
     private lateinit var button3: Button
+
     private lateinit var startButton: Button
     private lateinit var resultOfGameTextView: TextView
     private lateinit var linearLayout3: LinearLayout
-
     private lateinit var resultImageView: ImageView
     private lateinit var scoreTextView: TextView
     private lateinit var mediaPlayer: MediaPlayer
 
-    var num1 = 0
-    var num2 = 0
-    var maxNumberOfQuestions = 5
+    private var num1 = 0
+    private var num2 = 0
+    private var maxNumberOfQuestions = 20
     private lateinit var questionTextView: TextView
     private var correctAnswer: Int = 0
-    var totalQuestions: Int = 0
-    var points: Int = 0
+    private var totalQuestions: Int = 0
+    private var points: Int = 0
 
     private val answers = ArrayList<Int>()
     private val random = Random
@@ -50,21 +48,15 @@ class MainActivity : AppCompatActivity() {
         button3 = findViewById<Button>(R.id.button3)
         startButton = findViewById<Button>(R.id.startButton)
         resultOfGameTextView = findViewById<TextView>(R.id.resultOfGameTextView)
-
         resultImageView = findViewById<ImageView>(R.id.resultImageView)
         linearLayout3 = findViewById<LinearLayout>(R.id.linearLayout3)
-
         scoreTextView = findViewById<TextView>(R.id.scoreTextView)
         questionTextView = findViewById<TextView>(R.id.question)
         mediaPlayer = MediaPlayer.create(this, R.raw.happy_sound)
 
-
         startButton.setOnClickListener { startButtonClicked() }
         startGame()
-
-
     }
-
 
     @SuppressLint("SetTextI18n")
     fun newQuestion() {
@@ -85,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 while (wrongAnswer == (num1 + num2)) {
                     wrongAnswer = random.nextInt(10)
                 }
-                // add the wrong anster to the list
+                // add the wrong answer to the list
                 answers.add(wrongAnswer)
             }
         }
@@ -98,19 +90,19 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun optionSelect(view: View) {
+        totalQuestions++
 
         if (totalQuestions == maxNumberOfQuestions) {
             endTheGame()
 
         }
 
-
         resultImageView.visibility = View.VISIBLE
 
         if (correctAnswer == view.tag.toString().toInt()) {
             points++
             playHappySound()
-            scoreTextView.text = "${points} / $totalQuestions"
+            scoreTextView.text = "$points / $totalQuestions"
             resultImageView.setImageResource(R.drawable.right_icon)
 
         } else {
@@ -119,10 +111,7 @@ class MainActivity : AppCompatActivity() {
             playSadSound()
         }
 
-        totalQuestions++
-
         newQuestion()
-
 
     }
 
@@ -139,26 +128,18 @@ class MainActivity : AppCompatActivity() {
         val myResultOfGame = "your result is: \n$points"
         resultOfGameTextView.text = myResultOfGame
 
-
-
         playAgain()
-
-
-
-
-
-
     }
 
+    @SuppressLint("SetTextI18n")
     fun playAgain() {
         points = 0
         totalQuestions = 0
         scoreTextView.text = "$points / $totalQuestions"
         startButton.visibility = View.VISIBLE
-
-
     }
 
+    @SuppressLint("SetTextI18n")
     private fun startGame() {
         startButton.visibility = View.VISIBLE
 
@@ -171,14 +152,13 @@ class MainActivity : AppCompatActivity() {
         resultImageView.visibility = View.INVISIBLE
         resultOfGameTextView.visibility = View.INVISIBLE
 
-
         points = 0
         totalQuestions = 0
         scoreTextView.text = "$points / $totalQuestions"
     }
 
     private fun startButtonClicked() {
-        startButton.setVisibility(View.INVISIBLE)
+        startButton.visibility = View.INVISIBLE
         playHappySound()
 
         button0.visibility = View.VISIBLE
@@ -198,13 +178,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun playHappySound() {
+    private fun playHappySound() {
         mediaPlayer.release()
         mediaPlayer = MediaPlayer.create(this, R.raw.happy_sound)
         mediaPlayer.start()
     }
 
-    fun playSadSound() {
+    private fun playSadSound() {
         mediaPlayer.release()
         mediaPlayer = MediaPlayer.create(this, R.raw.fart2)
         mediaPlayer.start()
