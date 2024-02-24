@@ -186,6 +186,7 @@ class MainActivity : AppCompatActivity() {
         correctAnswerTextView.text = "score: $points"
 
     }
+    //{}
 
     private fun startButtonClicked() {
         startButton.visibility = View.INVISIBLE
