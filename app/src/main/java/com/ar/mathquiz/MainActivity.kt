@@ -1,4 +1,4 @@
-package com.example.mathquiz
+package com.ar.mathquiz
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
@@ -9,6 +9,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mathquiz.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -59,6 +62,12 @@ class MainActivity : AppCompatActivity() {
         questionTextView = findViewById<TextView>(R.id.question)
         mediaPlayer = MediaPlayer.create(this, R.raw.happy_sound)
 
+        // google ads test
+        MobileAds.initialize(this) {}
+        val mAdView = findViewById<com.google.android.gms.ads.AdView> (R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
         startButton.setOnClickListener { startButtonClicked() }
         startGame()
     }
@@ -104,8 +113,8 @@ class MainActivity : AppCompatActivity() {
             points++
             totalQuestions++
             playHappySound()
-            scoreTextView.text = "$totalQuestions"
-            correctAnswerTextView.text = "$points"
+            scoreTextView.text = "total: $totalQuestions"
+            correctAnswerTextView.text = "score: $points"
             resultImageView.setImageResource(R.drawable.right_icon)
 
 
@@ -116,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             totalQuestions++
             resultImageView.setImageResource(R.drawable.wrong_icon)
-            scoreTextView.text = "$totalQuestions"
+            scoreTextView.text = "total: $totalQuestions"
             playSadSound()
 
             if (totalQuestions == maxNumberOfQuestions) {
@@ -152,8 +161,8 @@ class MainActivity : AppCompatActivity() {
     fun playAgain() {
         points = 0
         totalQuestions = 0
-        scoreTextView.text = "$totalQuestions"
-        correctAnswerTextView.text = "$points"
+        scoreTextView.text = "total: $totalQuestions"
+        correctAnswerTextView.text = "score: $points"
         startButton.visibility = View.VISIBLE
     }
 
@@ -173,7 +182,9 @@ class MainActivity : AppCompatActivity() {
 
         points = 0
         totalQuestions = 0
-        scoreTextView.text = "$totalQuestions"
+        scoreTextView.text = "total: $totalQuestions"
+        correctAnswerTextView.text = "score: $points"
+
     }
 
     private fun startButtonClicked() {

@@ -1,4 +1,4 @@
-package com.example.mathquiz
+package com.ar.mathquiz
 
 import org.junit.Test
 
