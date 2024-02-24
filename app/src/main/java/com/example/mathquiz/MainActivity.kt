@@ -22,7 +22,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var resultOfGameTextView: TextView
     private lateinit var linearLayout3: LinearLayout
     private lateinit var resultImageView: ImageView
+
     private lateinit var scoreTextView: TextView
+    private lateinit var correctAnswerTextView: TextView
+
     private lateinit var mediaPlayer: MediaPlayer
 
     private var num1 = 0
@@ -33,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private var totalQuestions: Int = 0
     private var points: Int = 0
 
-    private val answers = ArrayList<Int>()
+    private val answersList = ArrayList<Int>()
     private val random = Random
 
 
@@ -51,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         resultImageView = findViewById<ImageView>(R.id.resultImageView)
         linearLayout3 = findViewById<LinearLayout>(R.id.linearLayout3)
         scoreTextView = findViewById<TextView>(R.id.scoreTextView)
+        correctAnswerTextView = findViewById<TextView>(R.id.correctAnswerTextView)
+
         questionTextView = findViewById<TextView>(R.id.question)
         mediaPlayer = MediaPlayer.create(this, R.raw.happy_sound)
 
@@ -60,62 +65,73 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun newQuestion() {
+        //generate 2 random numbers
         num1 = random.nextInt(0, 5)
         num2 = random.nextInt(0, 6)
 
         questionTextView.text = "$num1 + $num2"
 
         correctAnswer = random.nextInt(4)
-        answers.clear()
+        answersList.clear()
 
         for (i in 0 until 4) {
             if (i == correctAnswer) {
                 //add the correct answer to the list
-                answers.add(num1 + num2)
+                answersList.add(num1 + num2)
             } else {
                 var wrongAnswer = random.nextInt(10)
                 while (wrongAnswer == (num1 + num2)) {
                     wrongAnswer = random.nextInt(10)
                 }
                 // add the wrong answer to the list
-                answers.add(wrongAnswer)
+                answersList.add(wrongAnswer)
             }
         }
-        button0.text = answers[0].toString()
-        button1.text = answers[1].toString()
-        button2.text = answers[2].toString()
-        button3.text = answers[3].toString()
+        button0.text = answersList[0].toString()
+        button1.text = answersList[1].toString()
+        button2.text = answersList[2].toString()
+        button3.text = answersList[3].toString()
 
     }
 
     @SuppressLint("SetTextI18n")
     fun optionSelect(view: View) {
-        totalQuestions++
 
-        if (totalQuestions == maxNumberOfQuestions) {
-            endTheGame()
-
-        }
 
         resultImageView.visibility = View.VISIBLE
 
         if (correctAnswer == view.tag.toString().toInt()) {
             points++
+            totalQuestions++
             playHappySound()
-            scoreTextView.text = "$points / $totalQuestions"
+            scoreTextView.text = "$totalQuestions"
+            correctAnswerTextView.text = "$points"
             resultImageView.setImageResource(R.drawable.right_icon)
 
-        } else {
-            resultImageView.setImageResource(R.drawable.wrong_icon)
-            scoreTextView.text = "$points / $totalQuestions"
-            playSadSound()
-        }
 
+            if (totalQuestions == maxNumberOfQuestions) {
+                endTheGame()
+            }
+
+        } else {
+            totalQuestions++
+            resultImageView.setImageResource(R.drawable.wrong_icon)
+            scoreTextView.text = "$totalQuestions"
+            playSadSound()
+
+            if (totalQuestions == maxNumberOfQuestions) {
+                endTheGame()
+            }
+        }
         newQuestion()
+
 
     }
 
+
     private fun endTheGame() {
+
+
         linearLayout3.visibility = View.INVISIBLE
         button0.visibility = View.INVISIBLE
         button1.visibility = View.INVISIBLE
@@ -123,6 +139,7 @@ class MainActivity : AppCompatActivity() {
         button3.visibility = View.INVISIBLE
         scoreTextView.visibility = View.INVISIBLE
         questionTextView.visibility = View.INVISIBLE
+        correctAnswerTextView.visibility = View.INVISIBLE
 
         resultOfGameTextView.visibility = View.VISIBLE
         val myResultOfGame = "your result is: \n$points"
@@ -135,7 +152,8 @@ class MainActivity : AppCompatActivity() {
     fun playAgain() {
         points = 0
         totalQuestions = 0
-        scoreTextView.text = "$points / $totalQuestions"
+        scoreTextView.text = "$totalQuestions"
+        correctAnswerTextView.text = "$points"
         startButton.visibility = View.VISIBLE
     }
 
@@ -151,10 +169,11 @@ class MainActivity : AppCompatActivity() {
         questionTextView.visibility = View.INVISIBLE
         resultImageView.visibility = View.INVISIBLE
         resultOfGameTextView.visibility = View.INVISIBLE
+        correctAnswerTextView.visibility = View.INVISIBLE
 
         points = 0
         totalQuestions = 0
-        scoreTextView.text = "$points / $totalQuestions"
+        scoreTextView.text = "$totalQuestions"
     }
 
     private fun startButtonClicked() {
@@ -167,6 +186,7 @@ class MainActivity : AppCompatActivity() {
         button3.visibility = View.VISIBLE
 
         scoreTextView.visibility = View.VISIBLE
+        correctAnswerTextView.visibility = View.VISIBLE
         questionTextView.visibility = View.VISIBLE
         resultImageView.visibility = View.VISIBLE
         linearLayout3.visibility = View.VISIBLE
