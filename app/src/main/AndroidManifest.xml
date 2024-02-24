@@ -16,8 +16,8 @@
         tools:targetApi="31">
 
         <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID_lhkgsdjkfhbs--- test 8 gitignore ---djkfhbkjhbskjdhbfcjsb55555"
-            android:value="ca-app-pub-ca-app-pub-455 --- test 8 gitignore --- 555555555555555"/>
+            android:name="com.google.android.gms.ads.APPLICATION_ID_lhkgsdjkfhbs--- test 9 gitignore ---djkfhbkjhbskjdhbfcjsb55555"
+            android:value="ca-app-pub-ca-app-pub-455 --- test 9 gitignore --- 555555555555555"/>
 
         <activity
             android:name="com.ar.mathquiz.MainActivity"
